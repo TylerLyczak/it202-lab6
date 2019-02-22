@@ -8,8 +8,8 @@
 	    <title>3 screen app</title>
 	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	     crossorigin="anonymous">
-       <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
       <style>
@@ -45,7 +45,13 @@
       </nav>
       <div class="content" id="home">
         Home page
+        <form id="myForm">
+        <input type="text" id="noteName" placeholder="Enter name of note">
+        <textarea id="content" placeholder="Enter text here"></textarea>
+        </form>
+        <button id="getFormData">Get Form Data</button>
       </div>
+
       <div class="content" id="screen2">
         This is screen 2
       </div>
@@ -53,11 +59,8 @@
         This is screen 3
       </div>
 
-      <form id="myForm">
-      <input type="text" id="name" placeholder="Enter your name">
-      <input type="text" id="age" placeholder="Enter your age">
-      </form>
-      <button id="getFormData">Get Form Data</button>
+
+
 
       <div id="list">
       </div>
@@ -65,28 +68,25 @@
       //
       // Define your database
       //
-      var db = new Dexie("friend_database");
+      var db = new Dexie("note_database");
       db.version(1).stores({
-          friends: 'name,shoeSize,age'
+          notes: 'name,content'
       });
 
       //
       // Put some data into it
       //
-      db.friends.put({name: "Dave", shoeSize: 10, age: 58});
-      db.friends.put({name: "Nicolas", shoeSize: 8, age: 22});
+      db.notes.put({name: "test", content: "test"});
 
 
 
 
 
-      db.friends.each(function(friend){
-        console.log(friend.name);
-        document.getElementById("list").innerHTML += "<p>" + friend.name + "<br>" + friend.shoeSize + "</p>";
+      db.notes.each(function(listNote){
+        console.log(notes.name);
+        document.getElementById("list").innerHTML += "<p>" + notes.name + "<br>" + notes.content + "</p>";
       });
-      </script>
 
-      <script>
       $(document).ready(function() {
 
         function hideScreens() {
@@ -104,11 +104,16 @@
 
       $(document).ready(function(){
       // event handler
+
       $("#getFormData").on("click", function() {
+        /*
         $("body").append($("<hr>"));
         $("body").append($("#name").val());
         $("body").append($("<br>"));
         $("body").append($("#age").val());
+      */
+        // Added functions for indexDB
+        db.notes.put({name: $("#noteName").val(), content: $("#content").val()});
       });
     });
     </script>
