@@ -1,3 +1,38 @@
 <!doctype html>
 <html>
+  <head>
+      <!-- Include Dexie -->
+      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+
+
+      <body>
+        <div id="list">
+          </div>
+          <script>
+          //
+          // Define your database
+          //
+          var db = new Dexie("friend_database");
+          db.version(1).stores({
+              friends: 'name,shoeSize,age'
+          });
+
+          //
+          // Put some data into it
+          //
+          db.friends.put({name: "Dave", shoeSize: 10, age: 58});
+          db.friends.put({name: "Nicolas", shoeSize: 8, age: 22});
+
+
+
+
+
+          db.friends.each(function(friend){
+            console.log(friend.name);
+            document.getElementById("list").innerHTML += "<p>" + friend.name + "<br>" + friend.shoeSize + "</p>";
+          });
+      </script>
+        </body>
+  </head>
 </html>
