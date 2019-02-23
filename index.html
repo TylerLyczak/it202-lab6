@@ -56,16 +56,15 @@
       <div class="content" id="listNote">
         <div id="list">
         </div>
+        <div id="displayNotes">
+          <button id="getNotes">Click to display notes</button>
+        </div>
       </div>
 
       <div class="content" id="delete">
       </div>
 
 
-
-
-      <div id="list">
-      </div>
       <script>
       //
       // Define your database
@@ -103,17 +102,21 @@
 
       });
 
+      $(document).ready(function(){
+        $("#getNotes").on("click", function() {
+        })
+      });
 
       $(document).ready(function(){
       // event handler
 
       $("#getFormData").on("click", function() {
-        /*
-        $("body").append($("<hr>"));
-        $("body").append($("#name").val());
-        $("body").append($("<br>"));
-        $("body").append($("#age").val());
-      */
+
+        $("#displayNotes").append($("<hr>"));
+        $("#displayNotes").append($("#noteName").val());
+        $("#displayNotes").append($("<br>"));
+        $("#displayNotes").append($("#contentNote").val());
+
         // Added functions for indexDB
         db.notes.put({name: $("#noteName").val(), contentNote: $("#contentNote").val()});
       });
