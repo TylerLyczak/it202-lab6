@@ -32,31 +32,33 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#home">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#addNote">Add Notes <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#screen2">Screen 2</a>
+            <a class="nav-link" href="#listNote">List Notes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#screen3">Screen 3</a>
+            <a class="nav-link" href="#delete">Delete Notes</a>
           </li>
         </ul>
       </div>
       </nav>
-      <div class="content" id="home">
-        Home page
+      <div class="content" id="addNote">
         <form id="myForm">
         <input type="text" id="noteName" placeholder="Enter name of note">
-        <textarea id="content" placeholder="Enter text here"></textarea>
+        <div>
+          <textarea id="contentNote" placeholder="Enter text here"></textarea>
+        </div>
         </form>
-        <button id="getFormData">Get Form Data</button>
+        <button id="getFormData">Submit Note</button>
       </div>
 
-      <div class="content" id="screen2">
-        This is screen 2
+      <div class="content" id="listNote">
+        <div id="list">
+        </div>
       </div>
-      <div class="content" id="screen3">
-        This is screen 3
+
+      <div class="content" id="delete">
       </div>
 
 
@@ -70,13 +72,13 @@
       //
       var db = new Dexie("note_database");
       db.version(1).stores({
-          notes: 'name,content'
+          notes: 'name,contentNote'
       });
 
       //
       // Put some data into it
       //
-      db.notes.put({name: "test", content: "test"});
+      db.notes.put({name: "test", contentNote: "test"});
 
 
 
@@ -84,7 +86,7 @@
 
       db.notes.each(function(listNote){
         console.log(notes.name);
-        document.getElementById("list").innerHTML += "<p>" + notes.name + "<br>" + notes.content + "</p>";
+        document.getElementById("list").innerHTML += "<p>" + notes.name + "<br>" + notes.contentNote + "</p>";
       });
 
       $(document).ready(function() {
@@ -113,7 +115,7 @@
         $("body").append($("#age").val());
       */
         // Added functions for indexDB
-        db.notes.put({name: $("#noteName").val(), content: $("#content").val()});
+        db.notes.put({name: $("#noteName").val(), contentNote: $("#contentNote").val()});
       });
     });
     </script>
