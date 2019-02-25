@@ -62,6 +62,9 @@
       </div>
 
       <div class="content" id="delete">
+        <div>
+          <button id="deleteNotes">Delete All Notes</button>
+        </div>
       </div>
 
 
@@ -71,7 +74,7 @@
       //
       var db = new Dexie("note_database");
       db.version(1).stores({
-          notes: 'name,contentNote'
+          notes: '++id,name,contentNote'
       });
 
       //
@@ -94,33 +97,57 @@
           $(".content").hide();
         }
 
+        function loadNotesList()  {
+          // Clears Content
+          $("#list").empty();
+          db.notes.each(function(note)  {
+
+            var p = $("<p>");
+            p.attr("data-id", note.id);
+            p.addClass("list_note");
+            p.text(note.name);
+
+            $("#list").append(p);
+          });
+        }
+
+        function loadNoteDetail(id) {
+          db.notes.get(id).then(function()  {
+            $("#detail").append(note.name);
+            $("#detail").append(note.contentNote);
+          })
+        }
+
+        $("body").on("click", ".list-note", function()  {
+          loadNoteDetail($(this).attr("data-id"));
+        });
+
+
+
         $(".nav-link").on("click", function(){
           hideScreens();
           var target = $(this).attr("href");
           $(target).show();
+
+          if (target == "#listNote")  {
+            // loop through Notes
+            //update ui
+            loadNotesList()
+          }
+        });
+
+        $("#getFormData").on("click", function() {
+
+          var subject = $("#noteName").val();
+          var content = $("#contentNote").val();
+
+
+          // Added functions for indexDB
+          db.notes.put({name: subject, contentNote: content});
         });
 
       });
 
-      $(document).ready(function(){
-        $("#getNotes").on("click", function() {
-        })
-      });
-
-      $(document).ready(function(){
-      // event handler
-
-      $("#getFormData").on("click", function() {
-
-        $("#displayNotes").append($("<hr>"));
-        $("#displayNotes").append($("#noteName").val());
-        $("#displayNotes").append($("<br>"));
-        $("#displayNotes").append($("#contentNote").val());
-
-        // Added functions for indexDB
-        db.notes.put({name: $("#noteName").val(), contentNote: $("#contentNote").val()});
-      });
-    });
     </script>
 
   </body>
