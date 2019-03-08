@@ -17,13 +17,19 @@
       		display: none;
       		margin: 1em;
       	}
+        .list_note  {
+          border: 5px solid black;
+          padding: 10px;
+        }
+        .nameStyle  {
+          font-weight: bold;
+        }
       </style>
   </head>
 
 
 
       <body>
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
     		<a class="navbar-brand" href="#">Navbar</a>
     		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +44,7 @@
             <a class="nav-link" href="#listNote">List Notes</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#delete">Delete Notes</a>
+            <a class="nav-link" href="#detail">Detail</a>
           </li>
         </ul>
       </div>
@@ -56,14 +62,10 @@
       <div class="content" id="listNote">
         <div id="list">
         </div>
-        <div id="displayNotes">
-          <button id="getNotes">Click to display notes</button>
-        </div>
       </div>
 
-      <div class="content" id="delete">
-        <div>
-          <button id="deleteNotes">Delete All Notes</button>
+      <div class="content" id="detail">
+        <div id="detailList">
         </div>
       </div>
 
@@ -80,16 +82,17 @@
       //
       // Put some data into it
       //
-      db.notes.put({name: "test", contentNote: "test"});
+      //db.notes.put({name: "test", contentNote: "test"});
 
 
 
 
-
+      /*
       db.notes.each(function(listNote){
         console.log(notes.name);
         document.getElementById("list").innerHTML += "<p>" + notes.name + "<br>" + notes.contentNote + "</p>";
       });
+      */
 
       $(document).ready(function() {
 
@@ -102,25 +105,46 @@
           $("#list").empty();
           db.notes.each(function(note)  {
 
-            var p = $("<p>");
-            p.attr("data-id", note.id);
-            p.addClass("list_note");
-            p.text(note.name);
+            var noteDiv = $("<div>")
+            noteDiv.attr("data-id", note.id);
+            noteDiv.addClass("list_note");
 
-            $("#list").append(p);
+            var h = $("<h4>");
+            //h.attr("data-id", note.id);
+            //h.addClass("list_note");
+            h.attr("class", "nameStyle")
+            h.text(note.id + ". " + note.name);
+            /*
+            var p = $("<p>");
+            p.text(note.contentNote);
+            */
+
+            noteDiv.append(h);
+            //noteDiv.append(p);
+
+            $("#list").append(noteDiv);
           });
         }
 
         function loadNoteDetail(id) {
-          db.notes.get(id).then(function()  {
-            $("#detail").append(note.name);
-            $("#detail").append(note.contentNote);
+          db.notes.get(id).then(function(note)  {
+            console.log("In load note detail");
+            //$("#detail").append(note.name);
+            //$("#detail").append(note.contentNote);
+            console.log (id);
+
+            var test = $("<h1>");
+            test.text("Testing");
+            $("#detailList").append(test);
+
           })
         }
 
-        $("body").on("click", ".list-note", function()  {
+        $("body").on("click", ".list_note", function()  {
+          console.log("Clicked worked");
           loadNoteDetail($(this).attr("data-id"));
         });
+
 
 
 
