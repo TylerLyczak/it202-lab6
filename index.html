@@ -76,7 +76,7 @@
       //
       var db = new Dexie("note_database");
       db.version(1).stores({
-          notes: '++id,name,contentNote'
+          notes: 'id++,name,contentNote'
       });
 
       //
@@ -127,17 +127,20 @@
         }
 
         function loadNoteDetail(id) {
-          db.notes.get(id).then(function(note)  {
+          db.notes.get(id).then(function(calledNote)  {
             console.log("In load note detail");
             //$("#detail").append(note.name);
             //$("#detail").append(note.contentNote);
             console.log (id);
+            //console.log(calledNote.name);
+
+            var testNote = calledNote.target.result;
+            console.log (testNote);
 
             var test = $("<h1>");
             test.text("Testing");
             $("#detailList").append(test);
-
-          })
+          });
         }
 
         $("body").on("click", ".list_note", function()  {
