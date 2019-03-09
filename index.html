@@ -114,32 +114,21 @@
             //h.addClass("list_note");
             h.attr("class", "nameStyle")
             h.text(note.id + ". " + note.name);
-            /*
+
             var p = $("<p>");
             p.text(note.contentNote);
-            */
+
 
             noteDiv.append(h);
-            //noteDiv.append(p);
+            noteDiv.append(p);
 
             $("#list").append(noteDiv);
           });
         }
 
         function loadNoteDetail(id) {
-          db.notes.get(id).then(function(calledNote)  {
-            console.log("In load note detail");
-            //$("#detail").append(note.name);
-            //$("#detail").append(note.contentNote);
-            console.log (id);
-            console.log(calledNote.name);
-
-            var testNote = calledNote.target.result;
-            console.log (testNote);
-
-            var test = $("<h1>");
-            test.text("Testing");
-            $("#detailList").append(test);
+          db.notes.get(id).then(function(note)  {
+            alert ("Notes with id: " + id);
           });
         }
 
